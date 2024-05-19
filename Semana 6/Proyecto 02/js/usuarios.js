@@ -2,7 +2,7 @@
 let tablausuarios = document.querySelector("#tablausuarios");
 let mensajes = document.querySelector("#mensajes");
 
-let url =  "https://paginas-web-cr.com/Api/apis/";
+let url = "https://paginas-web-cr.com/Api/apis/";
 let listar = "ListaUsuarios.php";
 let insertar = "InsertarUsuarios.php";
 let actualizar = "ActualizarUsuarios.php";
@@ -28,88 +28,88 @@ let spinner = `
             Loading...
             </button>`;
 
-if (nombrePaagina == crearPagina){
+if (nombrePaagina == crearPagina) {
 
-formulario.addEventListener("submit",
-    function(evento){
-        evento.preventDefault();//evita la recarga de la pagina
-      
-        let datos = new FormData(formulario);
-
-        let datosEnviar =
-        {
-            name: datos.get('name'),
-            password: datos.get('password'),
-            email: datos.get('email')
-        };
-
-        fetch ( url + insertar,
-            {
-                method: 'POST',
-                body: JSON.stringify(datosEnviar)
-            }
-        ) 
-        .then( repuesta=> repuesta.json() )
-        .then ( (datosrepuestas) => {
-            insertarDatos(datosrepuestas)
-          
-        })
-        .catch(console.log)
-
-    })
-}
-
-
-if (nombrePaagina == listarPagina){
-
-    formularioEditar.addEventListener("submit",
-        function(evento){
+    formulario.addEventListener("submit",
+        function (evento) {
             evento.preventDefault();//evita la recarga de la pagina
 
-            let datos = new FormData(formularioEditar);
-    
+            let datos = new FormData(formulario);
+
             let datosEnviar =
             {
                 name: datos.get('name'),
-                password: datos.get('password'),                
-                id: datos.get('id')
+                password: datos.get('password'),
+                email: datos.get('email')
             };
-    
-            console.log(datosEnviar);
-            fetch ( url + actualizar,
+
+            fetch(url + insertar,
                 {
                     method: 'POST',
                     body: JSON.stringify(datosEnviar)
                 }
-            ) 
-            .then( repuesta=> repuesta.json() )
-            .then ( (datosrepuestas) => {
-                editarDatos(datosrepuestas)
+            )
+                .then(repuesta => repuesta.json())
+                .then((datosrepuestas) => {
+                    insertarDatos(datosrepuestas)
 
-            })
-            .catch(console.log)
-    
+                })
+                .catch(console.log)
+
         })
-    }
+}
+
+
+if (nombrePaagina == listarPagina) {
+
+    formularioEditar.addEventListener("submit",
+        function (evento) {
+            evento.preventDefault();//evita la recarga de la pagina
+
+            let datos = new FormData(formularioEditar);
+
+            let datosEnviar =
+            {
+                name: datos.get('name'),
+                password: datos.get('password'),
+                id: datos.get('id')
+            };
+
+            console.log(datosEnviar);
+            fetch(url + actualizar,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(datosEnviar)
+                }
+            )
+                .then(repuesta => repuesta.json())
+                .then((datosrepuestas) => {
+                    editarDatos(datosrepuestas)
+
+                })
+                .catch(console.log)
+
+        })
+}
 
 
 
 //Metodos
-function cargar(){
+function cargar() {
     tablausuarios.innerHTML = "";
     cargarspinner();
-    fetch ( url + listar ) //https://paginas-web-cr.com/Api/apis/ListaUsuarios.php
-    .then( repuesta=> repuesta.json() )
-    .then ( (datosrepuestas) => {
-        //console.log(datosrepuestas)
-        pintardatos(datosrepuestas)
-    })
-    .catch(console.log)
+    fetch(url + listar) //https://paginas-web-cr.com/Api/apis/ListaUsuarios.php
+        .then(repuesta => repuesta.json())
+        .then((datosrepuestas) => {
+            //console.log(datosrepuestas)
+            pintardatos(datosrepuestas)
+        })
+        .catch(console.log)
 }
 
-function pintardatos(objetodatos){
-//    console.log(objetodatos);
-    if ( objetodatos.code == 200){
+function pintardatos(objetodatos) {
+    //    console.log(objetodatos);
+    if (objetodatos.code == 200) {
         for (const item of objetodatos.data) {
             //console.log(item.id);
             tablausuarios.innerHTML += `
@@ -146,12 +146,12 @@ function pintardatos(objetodatos){
     document.getElementById("seccionspinner").innerHTML = "";
 }
 
-function cargarspinner(){
+function cargarspinner() {
     document.getElementById("seccionspinner").innerHTML = spinner;
 }
 
-function insertarDatos(datosrepuestas){
-    if ( datosrepuestas.code == 200){
+function insertarDatos(datosrepuestas) {
+    if (datosrepuestas.code == 200) {
         mensajes.innerHTML = `<div
         class="alert alert-success alert-dismissible fade show"
         role="alert"
@@ -165,8 +165,8 @@ function insertarDatos(datosrepuestas){
         <strong>Ingreso exitoso</strong>
     </div>`;
     }
-    else{
-    mensajes.innerHTML = `<div
+    else {
+        mensajes.innerHTML = `<div
         class="alert alert-warning alert-dismissible fade show"
         role="alert"
     >
@@ -181,9 +181,9 @@ function insertarDatos(datosrepuestas){
     }
 }
 
-function editar(datos){
-    let objeto  = JSON.parse(decodeURIComponent(datos));
-    
+function editar(datos) {
+    let objeto = JSON.parse(decodeURIComponent(datos));
+
     const modalEdicion = new bootstrap.Modal(document.getElementById("modalEdicion"));
     modalEdicion.show();
 
@@ -191,14 +191,14 @@ function editar(datos){
     document.getElementById("email").value = objeto.email;
     document.getElementById("id").value = objeto.id;
     document.getElementById("idEditar").innerHTML = objeto.id;
-    
+
     document.getElementById("password").value = "";
 
 }
 
 
-function editarDatos(datosrepuestas){
-    if ( datosrepuestas.code == 200){
+function editarDatos(datosrepuestas) {
+    if (datosrepuestas.code == 200) {
         mensajes.innerHTML = `<div
         class="alert alert-success alert-dismissible fade show"
         role="alert"
@@ -211,10 +211,10 @@ function editarDatos(datosrepuestas){
         ></button>
         <strong>Modificacion exitosa</strong>
     </div>`;
-    setTimeout(cargar, 3000);
+        setTimeout(cargar, 3000);
     }
-    else{
-    mensajes.innerHTML = `<div
+    else {
+        mensajes.innerHTML = `<div
         class="alert alert-warning alert-dismissible fade show"
         role="alert"
     >
@@ -229,20 +229,20 @@ function editarDatos(datosrepuestas){
     }
 }
 
-function eliminar(id){    
+function eliminar(id) {
     const modalEliminar = new bootstrap.Modal(document.getElementById("modalEliminar"));
     modalEliminar.show();
     document.getElementById("idEliminar").innerHTML = id;
     document.getElementById("idEliminarModal").value = id;
-    
+
 }
 
-function modalConfirmacionEliminar(){
+function modalConfirmacionEliminar() {
     alert("eliminado");
 }
 
 
-if (nombrePaagina == listarPagina){
+if (nombrePaagina == listarPagina) {
     cargar();
 }
 
